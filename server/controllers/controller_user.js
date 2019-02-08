@@ -39,6 +39,10 @@ module.exports = {
           err: err.message
         })
       })
+  },
+
+  verify: (req,res) => {
+    
   }
 
 

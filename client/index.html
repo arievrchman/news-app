@@ -15,6 +15,80 @@
 </head>
 
 <body>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      const id_token = googleUser.getAuthResponse().id_token;
+      console.log(id_token)
+      $.post('http://localhost:3000/user/auth/google', ({ token: id_token }))
+        .done(data => {
+          console.log(data)
+          localStorage.setItem('token', data.token)
+        })
+        .fail(err => {
+          console.log(err)
+        })
+    }
+
+    function verifyUser() {
+      const token = localStorage.getItem('token')
+
+      let api1 = $.get({
+        url: 'http://localhost:3000/api/news/top-headlines',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 1')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api2 = $.get({
+        url: 'http://localhost:3000/api/news/everything',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 2')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api3 = $.get({
+        url: 'http://localhost:3000/api/news/sources',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 3')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      Promise.all([api1, api2, api3])
+        .then(result => {
+          return result
+        })
+        .catch(err => {
+          return err
+        })
+    }
+
+    verifyUser()
+
+
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 
   <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">

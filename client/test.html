@@ -15,8 +15,15 @@
 
 <body>
     <div>
-        <input type="submit" value="Stop speaking" onclick="stopSpeak();">
+        <input type="submit" value="Stop speaking" onclick="stopSpeak()">
         <select name="voice" id="voice"></select>
+    </div>
+
+    <div>
+        <input type="text" name="textTranslate" id="textTranslate">
+        <select name="textTranslateTo" id="textTranslateTo"></select>
+        <input type="submit" value="Translate" onclick="translateText()">
+        <div id="translatedText"></div>
     </div>
 
     <div>
@@ -42,6 +49,13 @@
         <input type="date" name="everythingTo" id="everythingTo">
         <input type="submit" value="search" onclick="searchEverything()">
     </div>
+
+    <div>
+        <select name="articlesTranslateTo" id="articlesTranslateTo"></select>
+        <input type="submit" value="Translate" onclick="translateNewsData()">
+    </div>
+
+    <div id="translation"></div>
     <div id="topHeadlines"></div>
     <div id="everything"></div>
     <script src="test.js"></script>

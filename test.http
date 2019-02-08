@@ -1,4 +1,7 @@
-GET http://localhost:3000/api/translate/en/aku cinta kamu
+POST http://localhost:3000/api/translate
+Content-Type: application/x-www-form-urlencoded
+
+lang=en&text=aku cinta kamu
 
 ###
 GET http://localhost:3000/api/news/top-headlines?q=football&translateTo=id
@@ -7,5 +10,5 @@ GET http://localhost:3000/api/news/top-headlines?q=football&translateTo=id
 GET http://localhost:3000/api/news/everything?q=google&translateTo=id
 
 ###
-<script src='//vws.responsivevoice.com/v/e?key=LCM0tsDc'></script>
+GET http://localhost:3000/api/translate/getLangs
 

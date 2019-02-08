@@ -58,6 +58,29 @@ function searchEverything() {
         })
 }
 
+function translateNewsData() {
+    $('#translation').html('Please wait...')
+    let lang = $('#translateTo').val()
+    let url = `${baseurl}/api/translate/newsapiData?`
+    url += `&lang=${lang}`
+    $.ajax({
+        url,
+        data: JSON.stringify({ data: newsData }),
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+    })
+        .done(response => {
+            newsData = response
+            let html = newsDataToHtml()
+            $('#translation').html(html)
+        })
+        .fail(response => {
+            $('#translation').text(JSON.stringify(response))
+            console.log(response)
+        })
+}
+
 function newsDataToHtml() {
     let html = ''
     html += `<div>Total result : ${newsData.totalResults}</div>`
@@ -73,6 +96,39 @@ function newsDataToHtml() {
     return html
 }
 
+function translateText() {
+    $('#translatedText').html('Please wait...')
+    let text = $('#textTranslate').val()
+    let lang = $('#textTranslateTo').val()
+    let postData = `lang=${lang}&text=${text}`
+    $.ajax({
+        url: `${baseurl}/api/translate`,
+        method: 'POST',
+        data: postData
+    })
+        .done(response => {
+            let html = `<h6>${response.lang}</h6>`
+            html += `<h5>${response.text[0]}</h5>`
+            $('#translatedText').html(html)
+        })
+        .fail(response => {
+            $('#translatedText').text(JSON.stringify(response))
+            console.log(response)
+        })
+}
+
+$.ajax({ url: `${baseurl}/api/translate/getLangs` })
+    .done(response => {
+        for (const iso in response.langs) {
+            $('#textTranslateTo').append($("<option />").val(iso).text(response.langs[iso]));
+            $('#articlesTranslateTo').append($("<option />").val(iso).text(response.langs[iso]));
+        }
+        let lang = $('#translateTo').val()
+    })
+    .fail(response => {
+        $('#translatedText').text(JSON.stringify(response))
+        console.log(response)
+    })
 
 let voices = (responsiveVoice.getVoices())
 $.each(voices, function () {

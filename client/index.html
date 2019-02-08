@@ -32,6 +32,55 @@
           console.log(err)
         })
     }
+
+    function verifyUser() {
+      const token = localStorage.getItem('token')
+
+      let api1 = $.get({
+        url: 'http://localhost:3000/api/news/top-headlines',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 1')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api2 = $.get({
+        url: 'http://localhost:3000/api/news/everything',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 2')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api3 = $.get({
+        url: 'http://localhost:3000/api/news/sources',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 3')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      Promise.all([api1, api2, api3])
+        .then(result => {
+          return result
+        })
+        .catch(err => {
+          return err
+        })
+    }
+
+    verifyUser()
+
+
   </script>
 
   <script src="https://apis.google.com/js/platform.js" async defer></script>

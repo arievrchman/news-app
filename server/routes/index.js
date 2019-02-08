@@ -4,8 +4,6 @@ const YandexController = require('../controllers/yandex')
 const NewsapiController = require('../controllers/newsapi')
 const auth = require('../middlewares/authUser')
 
-
-
 router.get('/', (req, res) => {
     res.status(404).json({ msg: 'page not found' })
 })

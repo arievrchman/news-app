@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="https://www.abc.net.au/news/linkableblob/8413676/data/abc-news-og-data.jpg" width="30" height="30"
+                class="d-inline-block align-top">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Top Headlines</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Everything</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                        aria-labelledby="navbarDropdownMenuLink-333">
+                        <a class="dropdown-item" href="#">Signout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section>
+        <div class="row">
+            <div class="col-sm-3 border-right">
+                <form class="form-inline active-cyan-3 active-cyan-4 mt-2" style="justify-content: center">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+                        aria-label="Search">
+                </form>
+                <div>
+                    <input type="submit" value="Stop speaking" onclick="stopSpeak();">
+                    <select name="voice" id="voice"></select>
+                </div>
+
+                <div>
+                    <input type="text" name="topHeadlinesQ" id="topHeadlinesQ">
+                    <select name="topHeadlinesCountry" id="topHeadlinesCountry">
+                        <option value="">Any TopHeadline</option>
+                    </select>
+                    <select name="topHeadlinesCategory" id="topHeadlinesCategory">
+                        <option value="">Any</option>
+                    </select>
+                    <input type="submit" value="search" onclick="searchTopHeadlines()">
+                </div>
+
+                <div>
+                    <input type="text" name="everythingQ" id="everythingQ">
+                    <select name="everythingLanguage" id="everythingLanguage">
+                        <option value="">Any</option>
+                    </select>
+                    <select name="everythingSortBy" id="everythingSortBy">
+                        <option value="">Any</option>
+                    </select>
+                    <input type="date" name="everythingFrom" id="everythingFrom">
+                    <input type="date" name="everythingTo" id="everythingTo">
+                    <input type="submit" value="search" onclick="searchEverything()">
+                </div>
+            </div>
+
+            <div class="col-sm-9 border-bottom">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="single-news mb-4">
+                            <div class="view overlay rounded z-depth-1-half mb-4">
+                                <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/82.jpg"
+                                    alt="Sample image">
+                                <a>
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
+                            <!-- Data -->
+                            <div class="news-data d-flex justify-content-between">
+                                <a href="#!" class="light-blue-text">
+                                    <h6 class="font-weight-bold"><i class="fas fa-plane pr-2"></i>Travels</h6>
+                                </a>
+                                <p class="font-weight-bold dark-grey-text"><i class="fas fa-clock-o pr-2"></i>20/08/2018
+                                </p>
+                            </div>
+
+                            <!-- Excerpt -->
+                            <h3 class="font-weight-bold dark-grey-text mb-3"><a>Title of the news</a></h3>
+                            <p class="dark-grey-text">Nam libero tempore, cum soluta nobis est eligendi optio cumque
+                                nihil
+                                impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est,
+                                omnis
+                                dolor
+                                repellendus.</p>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+
+    <div id="topHeadlines"></div>
+    <div id="everything"></div>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>

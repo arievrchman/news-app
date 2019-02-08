@@ -15,6 +15,9 @@ router.get('/api/news/top-headlines', NewsapiController.getTopHeadlines)
 router.get('/api/news/everything', NewsapiController.getEverything)
 router.get('/api/news/sources', NewsapiController.getSources)
 
-router.get('/api/translate/:lang/:text', YandexController.translate)
+router.post('/api/translate', YandexController.translate)
+router.get('/api/translate/getLangs', YandexController.getLangs)
+router.post('/api/translate/newsapiData', YandexController.translateNewsapiData)
+
 
 module.exports = router

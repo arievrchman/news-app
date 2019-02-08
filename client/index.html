@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      const id_token = googleUser.getAuthResponse().id_token;
+      console.log(id_token)
+      $.post('http://localhost:3000/user/auth/google', ({ token: id_token }))
+        .done(data => {
+          console.log(data)
+          localStorage.setItem('token', data.token)
+        })
+        .fail(err => {
+          console.log(err)
+        })
+    }
+
+    function verifyUser() {
+      const token = localStorage.getItem('token')
+
+      let api1 = $.get({
+        url: 'http://localhost:3000/api/news/top-headlines',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 1')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api2 = $.get({
+        url: 'http://localhost:3000/api/news/everything',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 2')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      let api3 = $.get({
+        url: 'http://localhost:3000/api/news/sources',
+        headers: { token: token }
+      })
+        .done(data => {
+          console.log(data, 'data 3')
+        })
+        .fail(err => {
+          console.log(err)
+        })
+
+      Promise.all([api1, api2, api3])
+        .then(result => {
+          return result
+        })
+        .catch(err => {
+          return err
+        })
+    }
+
+    verifyUser()
+
+
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+      <img src="https://www.abc.net.au/news/linkableblob/8413676/data/abc-news-og-data.jpg" width="30" height="30"
+        class="d-inline-block align-top">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showTopHeadlines()">Top Headlines</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showEverything()">Everything</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showTranslate()">Translate text</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link waves-effect waves-light">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item" href="#">Signout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section>
+    <!-- Row -->
+    <div class="row">
+      <!-- Col -->
+      <div class="col-sm-3 border-right">
+
+        <div id="topHeadlinesForm">
+          <h3>TopHeadlines</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="topHeadlinesQ" id="topHeadlinesQ" class="form-control" placeholder="Search">
+          </div>
+          <br>
+          Country :
+          <select name="topHeadlinesCountry" id="topHeadlinesCountry">
+            <option value="">Any</option>
+          </select>
+
+          <br>
+          Category <select name="topHeadlinesCategory" id="topHeadlinesCategory">
+            <option value="">Any</option>
+          </select>
+          <br>
+          <div class="mt-2">
+            <input class="btn btn-sm btn-light" type="submit" value="search" onclick="searchTopHeadlines()">
+          </div>
+        </div>
+        <br>
+
+        <div id="everythingForm" style="display: none">
+          <h3>Search Everything</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="everythingQ" id="everythingQ" class="form-control" placeholder="Search">
+          </div>
+          Language : <select name="everythingLanguage" id="everythingLanguage">
+            <option value="">Any</option>
+          </select>
+          <br>
+          Sort By : <select name="everythingSortBy" id="everythingSortBy">
+            <option value="">Any</option>
+          </select>
+          <br>
+          <input type="hidden" name="everythingFrom" id="everythingFrom">
+          <input type="hidden" name="everythingTo" id="everythingTo">
+          <input class="btn btn-sm btn-light" type="submit" value="search" onclick="searchEverything()">
+        </div>
+
+        <div id="translateForm" style="display: none">
+          <h3>Translate text</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="textTranslate" id="textTranslate" class="form-control"
+              placeholder="Text to translate">
+          </div>
+          <br>
+          Translate to : <select name="textTranslateTo" id="textTranslateTo"></select>
+          <br>
+          <input class="btn btn-sm btn-light" type="submit" value="Translate" onclick="translateText()">
+          <br>
+          <div id="translatedText"></div>
+        </div>
+        <br>
+
+        <div>
+          <h3>Text to speech</h3>
+          Voice selection : <select name="voice" id="voice"></select>
+          <br><br>
+          <h3>Translate articles</h3>
+          Translate to : <select name="articlesTranslateTo" id="articlesTranslateTo"></select>
+          <input class="btn btn-sm btn-light" type="submit" value="Translate" onclick="translateNewsData()">
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+
+      <!-- Articles -->
+      <div class="col-sm-9 border-bottom">
+        <div class="row" id="newsArticles">
+          <div class="col-lg-6 col-md-12">
+          </div>
+        </div>
+      </div>
+
+  </section>
+
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>

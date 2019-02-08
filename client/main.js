@@ -60,15 +60,34 @@ function searchEverything() {
 
 function newsDataToHtml() {
     let html = ''
-    html += `<div>Total result : ${newsData.totalResults}</div>`
     newsData.articles.forEach((e, i) => {
-        html += `<a href="${e.url}"><h1>${e.title}</h1></a>`
-        html += `<h3>Author ${e.author} | Source : ${e.source.name}</h3>`
-        html += `<h3>Published At ${e.publishedAt}</h3>`
-        html += `<img src="${e.urlToImage}">`
-        html += `<h2>${e.description}</h2>`
-        html += `<input type="submit" value="Speak" onclick="speak('${i}')">`
-        html += `<input type="submit" value="Stop" onclick="stopSpeak();">`
+        html += `
+        <div class="single-news mb-4">
+          <div class="view overlay rounded z-depth-1-half mb-4">
+            <img class="img-fluid" src="${e.urlToImage}">
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+          
+          <div class="news-data d-flex justify-content-between">
+            
+                <h6 class="font-weight-bold">
+                    Author: ${e.author || ''}
+                    <br>
+                    Source: ${e.source.name || ''}
+                </h6>
+            
+            <p class="font-weight-bold dark-grey-text">
+                <i class="fas fa-clock-o pr-2">
+                </i>
+                ${e.publishedAt.slice(0,10)}
+            </p>
+          </div>
+
+          <h3 class="font-weight-bold dark-grey-text mb-3"><a href="${e.url}">${e.title}</a></h3>
+          <p class="dark-grey-text">${e.description || ''}</p>
+        </div>`
     })
     return html
 }

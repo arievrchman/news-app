@@ -16,23 +16,19 @@ class YandexController {
 
     static async translateNewsapi(newsData, translateTo) {
         try {
-            let titleRequest = 'key=' + process.env.YANDEX_KEY
-            titleRequest += '&lang=' + translateTo
+            let translationRequest = 'key=' + process.env.YANDEX_KEY
+            translationRequest += '&lang=' + translateTo
             newsData.articles.forEach((e, i) => {
-                titleRequest += '&text=' + e.title
+                translationRequest += '&text=' + e.title
             })
-            let translatedTitles = await axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate`, titleRequest)
-
-            let descriptionRequest = 'key=' + process.env.YANDEX_KEY
-            descriptionRequest += '&lang=' + translateTo
             newsData.articles.forEach((e, i) => {
-                descriptionRequest += '&text=' + e.description
+                translationRequest += '&text=' + e.description
             })
-            let translatedDescriptions = await axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate`, descriptionRequest)
+            let translatedArticles = await axios.post(`https://translate.yandex.net/api/v1.5/tr.json/translate`, translationRequest)
 
             newsData.articles.forEach((e, i) => {
-                newsData.articles[i].translated_title = translatedTitles.data.text[i]
-                newsData.articles[i].translated_description = translatedDescriptions.data.text[i]
+                newsData.articles[i].translated_title = translatedArticles.data.text[i]
+                newsData.articles[i].translated_description = translatedArticles.data.text[i + newsData.articles.length]
             })
             return newsData
         } catch (err) {

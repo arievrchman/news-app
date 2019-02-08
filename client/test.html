@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div>
+        <input type="submit" value="Stop speaking" onclick="stopSpeak();">
+        <select name="voice" id="voice"></select>
+    </div>
+
+    <div>
+        <input type="text" name="topHeadlinesQ" id="topHeadlinesQ">
+        <select name="topHeadlinesCountry" id="topHeadlinesCountry">
+            <option value="">Any</option>
+        </select>
+        <select name="topHeadlinesCategory" id="topHeadlinesCategory">
+            <option value="">Any</option>
+        </select>
+        <input type="submit" value="search" onclick="searchTopHeadlines()">
+    </div>
+
+    <div>
+        <input type="text" name="everythingQ" id="everythingQ">
+        <select name="everythingLanguage" id="everythingLanguage">
+            <option value="">Any</option>
+        </select>
+        <select name="everythingSortBy" id="everythingSortBy">
+            <option value="">Any</option>
+        </select>
+        <input type="date" name="everythingFrom" id="everythingFrom">
+        <input type="date" name="everythingTo" id="everythingTo">
+        <input type="submit" value="search" onclick="searchEverything()">
+    </div>
+    <div id="topHeadlines"></div>
+    <div id="everything"></div>
+    <script src="test.js"></script>
+</body>
+
+</html>

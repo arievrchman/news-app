@@ -1,6 +1,24 @@
 let baseurl = 'http://localhost:3000'
 let newsData = { articles: [] }
 
+function showTopHeadlines() {
+    $("#topHeadlinesForm").show()
+    $('#everythingForm').hide()
+    $('#translateForm').hide()
+}
+
+function showEverything() {
+    $("#topHeadlinesForm").hide()
+    $('#everythingForm').show()
+    $('#translateForm').hide()
+}
+
+function showTranslate() {
+    $("#topHeadlinesForm").hide()
+    $('#everythingForm').hide()
+    $('#translateForm').show()
+}
+
 function speak(newsDataIndex) {
     responsiveVoice.cancel()
     let title = newsData.articles[newsDataIndex].title
@@ -28,10 +46,10 @@ function searchTopHeadlines() {
         .done(response => {
             newsData = response
             let html = newsDataToHtml()
-            $('#topHeadlines').html(html)
+            $('#newsArticles').html(html)
         })
         .fail(response => {
-            $('#topHeadlines').text(JSON.stringify(response))
+            $('#newsArticles').text(JSON.stringify(response))
             console.log(response)
         })
 }
@@ -50,17 +68,17 @@ function searchEverything() {
         .done(response => {
             newsData = response
             let html = newsDataToHtml()
-            $('#everything').html(html)
+            $('#newsArticles').html(html)
         })
         .fail(response => {
-            $('#everything').text(JSON.stringify(response))
+            $('#newsArticles').text(JSON.stringify(response))
             console.log(response)
         })
 }
 
 function translateNewsData() {
     $('#translation').html('Please wait...')
-    let lang = $('#translateTo').val()
+    let lang = $('#articlesTranslateTo').val()
     let url = `${baseurl}/api/translate/newsapiData?`
     url += `&lang=${lang}`
     $.ajax({
@@ -73,10 +91,10 @@ function translateNewsData() {
         .done(response => {
             newsData = response
             let html = newsDataToHtml()
-            $('#translation').html(html)
+            $('#newsArticles').html(html)
         })
         .fail(response => {
-            $('#translation').text(JSON.stringify(response))
+            $('#newsArticles').text(JSON.stringify(response))
             console.log(response)
         })
 }
@@ -84,7 +102,9 @@ function translateNewsData() {
 function newsDataToHtml() {
     let html = ''
     newsData.articles.forEach((e, i) => {
-        html += `
+        html +=
+            `
+        <div class="col-lg-6 col-md-12">
         <div class="single-news mb-4">
           <div class="view overlay rounded z-depth-1-half mb-4">
             <img class="img-fluid" src="${e.urlToImage}">
@@ -104,13 +124,17 @@ function newsDataToHtml() {
             <p class="font-weight-bold dark-grey-text">
                 <i class="fas fa-clock-o pr-2">
                 </i>
-                ${e.publishedAt.slice(0,10)}
+                ${e.publishedAt.slice(0, 10)}
             </p>
           </div>
 
           <h3 class="font-weight-bold dark-grey-text mb-3"><a href="${e.url}">${e.title}</a></h3>
           <p class="dark-grey-text">${e.description || ''}</p>
-        </div>`
+          <button onclick="speak(${i})">Speak</button>
+          <input type="submit" value="Stop speaking" onclick="stopSpeak();">
+        </div>
+        </div>
+        `
     })
     return html
 }

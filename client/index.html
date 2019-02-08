@@ -17,17 +17,20 @@
 <body>
 
   <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <img src="https://www.abc.net.au/news/linkableblob/8413676/data/abc-news-og-data.jpg" width="30" height="30"
         class="d-inline-block align-top">
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Top Headlines</a>
+          <a class="nav-link" href="#" onclick="showTopHeadlines()">Top Headlines</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Everything</a>
+          <a class="nav-link" href="#" onclick="showEverything()">Everything</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showTranslate()">Translate text</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -55,66 +58,86 @@
       <!-- Col -->
       <div class="col-sm-3 border-right">
 
-        <form class="form-inline active-cyan-3 active-cyan-4 mt-2" style="justify-content: center">
-          <i class="fas fa-search" aria-hidden="true"></i>
-          <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
-        </form>
-        <div>
-          <input type="submit" value="Stop speaking" onclick="stopSpeak();">
-          <select name="voice" id="voice"></select>
-        </div>
-
-        <div>
-          <input type="text" name="topHeadlinesQ" id="topHeadlinesQ">
+        <div id="topHeadlinesForm">
+          <h3>TopHeadlines</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="topHeadlinesQ" id="topHeadlinesQ" class="form-control" placeholder="Search">
+          </div>
+          <br>
+          Country :
           <select name="topHeadlinesCountry" id="topHeadlinesCountry">
-            <option value="">Any TopHeadline</option>
-          </select>
-          <select name="topHeadlinesCategory" id="topHeadlinesCategory">
             <option value="">Any</option>
           </select>
-          <input type="submit" value="search" onclick="searchTopHeadlines()">
+
+          <br>
+          Category <select name="topHeadlinesCategory" id="topHeadlinesCategory">
+            <option value="">Any</option>
+          </select>
+          <br>
+          <div class="mt-2">
+            <input class="btn btn-sm btn-light" type="submit" value="search" onclick="searchTopHeadlines()">
+          </div>
+        </div>
+        <br>
+
+        <div id="everythingForm" style="display: none">
+          <h3>Search Everything</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="everythingQ" id="everythingQ" class="form-control" placeholder="Search">
+          </div>
+          Language : <select name="everythingLanguage" id="everythingLanguage">
+            <option value="">Any</option>
+          </select>
+          <br>
+          Sort By : <select name="everythingSortBy" id="everythingSortBy">
+            <option value="">Any</option>
+          </select>
+          <br>
+          <input type="hidden" name="everythingFrom" id="everythingFrom">
+          <input type="hidden" name="everythingTo" id="everythingTo">
+          <input class="btn btn-sm btn-light" type="submit" value="search" onclick="searchEverything()">
         </div>
 
-        <div>
-          <input type="text" name="everythingQ" id="everythingQ">
-          <select name="everythingLanguage" id="everythingLanguage">
-            <option value="">Any</option>
-          </select>
-          <select name="everythingSortBy" id="everythingSortBy">
-            <option value="">Any</option>
-          </select>
-          <input type="date" name="everythingFrom" id="everythingFrom">
-          <input type="date" name="everythingTo" id="everythingTo">
-          <input type="submit" value="search" onclick="searchEverything()">
-        </div>
-
-        <div>
-          <input type="text" name="textTranslate" id="textTranslate">
-          <select name="textTranslateTo" id="textTranslateTo"></select>
-          <input type="submit" value="Translate" onclick="translateText()">
+        <div id="translateForm" style="display: none">
+          <h3>Translate text</h3>
+          <div class="md-form active-cyan-2 mb-3">
+            <input type="text" name="textTranslate" id="textTranslate" class="form-control"
+              placeholder="Text to translate">
+          </div>
+          <br>
+          Translate to : <select name="textTranslateTo" id="textTranslateTo"></select>
+          <br>
+          <input class="btn btn-sm btn-light" type="submit" value="Translate" onclick="translateText()">
+          <br>
           <div id="translatedText"></div>
+        </div>
+        <br>
+
+        <div>
+          <h3>Text to speech</h3>
+          Voice selection : <select name="voice" id="voice"></select>
+          <br><br>
+          <h3>Translate articles</h3>
+          Translate to : <select name="articlesTranslateTo" id="articlesTranslateTo"></select>
+          <input class="btn btn-sm btn-light" type="submit" value="Translate" onclick="translateNewsData()">
+        </div>
+
+        <div>
+
         </div>
       </div>
 
+      <!-- Articles -->
       <div class="col-sm-9 border-bottom">
-        <div class="row">
+        <div class="row" id="newsArticles">
           <div class="col-lg-6 col-md-12">
-
-            <div id="topHeadlines">
-
-            </div>
-
-            <div id="everything">
-
-            </div>
           </div>
         </div>
       </div>
+
   </section>
 
 
-  <!-- <div id="topHeadlines"></div>
-  <div id="everything"></div> -->
   <!-- JQuery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->

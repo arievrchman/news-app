@@ -25,7 +25,9 @@ class NewsapiController {
             let sources = req.query.sources || ''
             let language = req.query.language || ''
             let sortBy = req.query.sortBy || ''
-            let response = await axios.get(`https://newsapi.org/v2/everything?q=${q}&sources=${sources}&language=${language}&sortBy=${sortBy}&apiKey=${process.env.NEWSAPI_KEY}`)
+            let from = req.query.from || ''
+            let to = req.query.to || ''
+            let response = await axios.get(`https://newsapi.org/v2/everything?q=${q}&sources=${sources}&language=${language}&sortBy=${sortBy}&from=${from}&to=${to}&apiKey=${process.env.NEWSAPI_KEY}`)
             let newsData = response.data
             if (req.query.translateTo) {
                 newsData = await YandexController.translateNewsapi(newsData, req.query.translateTo)

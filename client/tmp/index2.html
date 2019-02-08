@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="122533611633-jsq2g5h8ndrn3512dcqpgbsrbbume32l.apps.googleusercontent.com">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      const id_token = googleUser.getAuthResponse().id_token;
+      console.log(id_token)
+      $.post('http://localhost:3000/user/auth/google', ({ token: id_token }))
+        .done(data => {
+          console.log(data)
+          localStorage.setItem('token', data.token)
+        })
+        .fail(err => {
+          console.log(err)
+        })
+    }
+  </script>
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+</body>
+
+</html>

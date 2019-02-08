@@ -1,41 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="google-signin-client_id" content="122533611633-jsq2g5h8ndrn3512dcqpgbsrbbume32l.apps.googleusercontent.com">
-  <title>Document</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
 </head>
 
 <body>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-    crossorigin="anonymous"></script>
+  <nav class="mb-1 navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="https://www.abc.net.au/news/linkableblob/8413676/data/abc-news-og-data.jpg" width="30" height="30"
+        class="d-inline-block align-top">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Top Headlines</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Everything</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link waves-effect waves-light">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item" href="#">Signout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-  <script>
-    function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      const id_token = googleUser.getAuthResponse().id_token;
-      console.log(id_token)
-      $.post('http://localhost:3000/user/auth/google', ({ token: id_token }))
-        .done(data => {
-          console.log(data)
-          localStorage.setItem('token', data.token)
-        })
-        .fail(err => {
-          console.log(err)
-        })
-    }
-  </script>
+  <section>
+    <!-- Row -->
+    <div class="row">
+      <!-- Col -->
+      <div class="col-sm-3 border-right">
 
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <form class="form-inline active-cyan-3 active-cyan-4 mt-2" style="justify-content: center">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+        </form>
+        <div>
+          <input type="submit" value="Stop speaking" onclick="stopSpeak();">
+          <select name="voice" id="voice"></select>
+        </div>
 
+        <div>
+          <input type="text" name="topHeadlinesQ" id="topHeadlinesQ">
+          <select name="topHeadlinesCountry" id="topHeadlinesCountry">
+            <option value="">Any TopHeadline</option>
+          </select>
+          <select name="topHeadlinesCategory" id="topHeadlinesCategory">
+            <option value="">Any</option>
+          </select>
+          <input type="submit" value="search" onclick="searchTopHeadlines()">
+        </div>
+
+        <div>
+          <input type="text" name="everythingQ" id="everythingQ">
+          <select name="everythingLanguage" id="everythingLanguage">
+            <option value="">Any</option>
+          </select>
+          <select name="everythingSortBy" id="everythingSortBy">
+            <option value="">Any</option>
+          </select>
+          <input type="date" name="everythingFrom" id="everythingFrom">
+          <input type="date" name="everythingTo" id="everythingTo">
+          <input type="submit" value="search" onclick="searchEverything()">
+        </div>
+      </div>
+
+      
+      <div class="col-sm-9 border-bottom">
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+
+            <div id="topHeadlines">
+
+            </div>
+
+            <div id="everything">
+
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <!-- <div id="topHeadlines"></div>
+  <div id="everything"></div> -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+  <script src="main.js"></script>
 </body>
 
 </html>
